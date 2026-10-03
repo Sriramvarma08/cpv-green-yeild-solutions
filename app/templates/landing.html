@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPV Green Yeild Solutions — Intelligent Farming Platform</title>
+    <meta name="description" content="AI-powered crop yield prediction and smart farming recommendations. Transform your agriculture with data-driven insights.">
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌾</text></svg>">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav" id="mainNav">
+        <a href="/" class="nav-logo">
+            <div class="nav-logo-icon">🌾</div>
+            <span>CPV Green <span style="color: var(--primary-light);">Yeild Solutions</span></span>
+        </a>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#features">Features</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#testimonials">Testimonials</a></li>
+            <li><a href="/dashboard">Dashboard</a></li>
+            <li><a href="/predict" class="btn btn-primary btn-sm">Try Prediction →</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg">
+            <img src="/static/hero_bg.jpg" alt="Agricultural farmland at golden hour">
+        </div>
+        <div class="hero-overlay"></div>
+        
+        <!-- Animated mesh blobs -->
+        <div class="hero-mesh">
+            <div class="mesh-blob"></div>
+            <div class="mesh-blob"></div>
+            <div class="mesh-blob"></div>
+        </div>
+        
+        <!-- Floating particles -->
+        <div class="hero-particles" id="particles"></div>
+        
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="dot"></span>
+                AI-Powered Agricultural Intelligence
+            </div>
+            
+            <h1>Predict Crop Yields with Machine Learning</h1>
+            
+            <p>
+                Harness the power of AI to analyze soil health, weather patterns, and nutrient levels. 
+                Get precise yield predictions and actionable farming recommendations — all in real time.
+            </p>
+            
+            <div class="hero-actions">
+                <a href="/predict" class="btn btn-primary">
+                    🧠 Run AI Prediction
+                </a>
+                <a href="/dashboard" class="btn btn-outline">
+                    📊 View Dashboard
+                </a>
+            </div>
+            
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <div class="stat-value" data-count="98">0</div>
+                    <div class="stat-label">Prediction Accuracy %</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" data-count="6">0</div>
+                    <div class="stat-label">Crop Types Supported</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" data-count="12">0</div>
+                    <div class="stat-label">Environmental Factors</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" data-count="5">0</div>
+                    <div class="stat-label">Soil Types Analyzed</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section reveal" id="features">
+        <div class="section-header">
+            <h2>Powered by Intelligence</h2>
+            <p>Advanced machine learning meets centuries of agricultural wisdom. Every prediction is backed by real science.</p>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🧠</div>
+                <h3>ML Yield Prediction</h3>
+                <p>Gradient Boosting model trained on multi-factor agricultural data. Input temperature, soil nutrients, and rainfall to get precise tons-per-hectare predictions with confidence scores.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🌡️</div>
+                <h3>Climate Analysis</h3>
+                <p>Real-time temperature, humidity, and rainfall tracking. Our model accounts for heat stress, drought conditions, and optimal growing windows for each crop type.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🧪</div>
+                <h3>Soil Health Intelligence</h3>
+                <p>Track pH levels, NPK ratios, organic matter, and moisture content. Get targeted fertilizer recommendations calibrated to your specific crop and soil conditions.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📋</div>
+                <h3>Smart Recommendations</h3>
+                <p>AI-generated action items ranked by priority and estimated impact. From irrigation schedules to amendment quantities — every suggestion is data-backed.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Risk Assessment</h3>
+                <p>Identify threats before they impact your yield. Fungal disease risk, nutrient leaching, heat stress, and drought alerts — with severity levels and mitigation steps.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Analytics Dashboard</h3>
+                <p>Interactive charts showing yield trends, crop distribution, farm statistics, and seasonal patterns. Monitor your entire operation from a single screen.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="section reveal" id="how-it-works">
+        <div class="section-header">
+            <h2>How It Works</h2>
+            <p>From data input to actionable insights in three simple steps.</p>
+        </div>
+        
+        <div class="steps-container">
+            <div class="step-item">
+                <div class="step-number">📝</div>
+                <h3>Enter Your Data</h3>
+                <p>Input your farm's soil nutrients, climate conditions, crop type, and land area into our intuitive prediction form.</p>
+            </div>
+            <div class="step-item">
+                <div class="step-number">🧠</div>
+                <h3>AI Analyzes</h3>
+                <p>Our Gradient Boosting model processes 10+ environmental factors to generate a precise yield forecast with confidence scoring.</p>
+            </div>
+            <div class="step-item">
+                <div class="step-number">📊</div>
+                <h3>Get Results</h3>
+                <p>Receive your predicted yield, risk assessment, and prioritized recommendations — all in under 2 seconds.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="section reveal" id="testimonials">
+        <div class="section-header">
+            <h2>Trusted by Farmers</h2>
+            <p>See how CPV Green Yeild Solutions is transforming agricultural productivity across India.</p>
+        </div>
+        
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">
+                    "The soil health recommendations alone increased my rice yield by 22% this season. The pH correction advice was spot-on for my alluvial soil."
+                </p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">RK</div>
+                    <div>
+                        <div class="testimonial-name">Rajesh Kumar</div>
+                        <div class="testimonial-role">Rice Farmer, Punjab</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">
+                    "I was skeptical about AI in farming, but the drought risk alert saved my cotton crop. The irrigation schedule it recommended was invaluable."
+                </p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">PP</div>
+                    <div>
+                        <div class="testimonial-name">Priya Patil</div>
+                        <div class="testimonial-role">Cotton Farmer, Maharashtra</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">
+                    "The dashboard gives me a complete picture of all three of my farms. Yield trend predictions have been accurate within 5% consistently."
+                </p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">AS</div>
+                    <div>
+                        <div class="testimonial-name">Arun Subramanian</div>
+                        <div class="testimonial-role">Multi-crop Farmer, Tamil Nadu</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section reveal" style="text-align: center; padding-bottom: 8rem;">
+        <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Ready to Optimize Your Farm?</h2>
+        <p style="color: var(--text-secondary); font-size: 1.1rem; max-width: 500px; margin: 0 auto 2rem;">
+            Start with a free yield prediction. No signup required — just enter your farm data and get instant results.
+        </p>
+        <div class="hero-actions">
+            <a href="/predict" class="btn btn-accent">
+                🚀 Start Free Prediction
+            </a>
+            <a href="/dashboard" class="btn btn-outline">
+                Explore Demo Dashboard
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h3>🌾 CPV Green <span style="color: var(--primary-light);">Yeild Solutions</span></h3>
+                <p>AI-powered crop yield prediction and smart farming recommendations. Making precision agriculture accessible to every farmer.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Platform</h4>
+                <ul>
+                    <li><a href="/predict">Yield Prediction</a></li>
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/docs">API Documentation</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Crops</h4>
+                <ul>
+                    <li><a href="/predict">🌾 Rice</a></li>
+                    <li><a href="/predict">🌿 Wheat</a></li>
+                    <li><a href="/predict">🌽 Corn</a></li>
+                    <li><a href="/predict">🫘 Soybean</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#testimonials">Testimonials</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 CPV Green Yeild Solutions — Built with ❤️ for Smarter Farming</p>
+            <div class="footer-social">
+                <a href="#" aria-label="Twitter">𝕏</a>
+                <a href="#" aria-label="GitHub">⌨</a>
+                <a href="#" aria-label="LinkedIn">in</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ─── Mobile menu toggle ───
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        navToggle.addEventListener('click', () => {
+            navToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+        // Close menu on link click
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // ─── Navbar scroll effect ───
+        const nav = document.getElementById('mainNav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // ─── Particles ───
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 8 + 's';
+            particle.style.animationDuration = (6 + Math.random() * 6) + 's';
+            particle.style.width = (2 + Math.random() * 4) + 'px';
+            particle.style.height = particle.style.width;
+            particlesContainer.appendChild(particle);
+        }
+
+        // ─── Counter animation ───
+        const counters = document.querySelectorAll('[data-count]');
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const target = parseInt(el.dataset.count);
+                    let current = 0;
+                    const increment = target / 50;
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= target) {
+                            el.textContent = target;
+                            clearInterval(timer);
+                        } else {
+                            el.textContent = Math.floor(current);
+                        }
+                    }, 25);
+                    counterObserver.unobserve(el);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        counters.forEach(counter => counterObserver.observe(counter));
+
+        // ─── Scroll Reveal ───
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // ─── Feature cards stagger animation ───
+        const featureCards = document.querySelectorAll('.feature-card');
+        const featureObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, idx) => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = `fadeInUp 0.6s ease-out ${idx * 0.1}s both`;
+                    featureObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        featureCards.forEach(card => {
+            card.style.opacity = '0';
+            featureObserver.observe(card);
+        });
+
+        // ─── Steps stagger animation ───
+        const stepItems = document.querySelectorAll('.step-item');
+        const stepObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const idx = Array.from(stepItems).indexOf(entry.target);
+                    entry.target.style.animation = `fadeInUp 0.7s ease-out ${idx * 0.2}s both`;
+                    stepObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+
+        stepItems.forEach(item => {
+            item.style.opacity = '0';
+            stepObserver.observe(item);
+        });
+
+        // ─── Testimonials stagger ───
+        const testimonialCards = document.querySelectorAll('.testimonial-card');
+        const testimonialObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const idx = Array.from(testimonialCards).indexOf(entry.target);
+                    entry.target.style.animation = `fadeInUp 0.6s ease-out ${idx * 0.15}s both`;
+                    testimonialObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        testimonialCards.forEach(card => {
+            card.style.opacity = '0';
+            testimonialObserver.observe(card);
+        });
+    </script>
+</body>
+</html>

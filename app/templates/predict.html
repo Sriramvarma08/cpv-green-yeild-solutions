@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Yield Prediction — CPV Green Yeild Solutions</title>
+    <meta name="description" content="Enter your farm data and get instant AI-powered crop yield predictions with actionable recommendations.">
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌾</text></svg>">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav scrolled" id="mainNav">
+        <a href="/" class="nav-logo">
+            <div class="nav-logo-icon">🌾</div>
+            <span>CPV Green <span style="color: var(--primary-light);">Yeild Solutions</span></span>
+        </a>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="/">Home</a></li>
+            <li><a href="/dashboard">Dashboard</a></li>
+            <li><a href="/predict" style="color: var(--text-accent);">Predict</a></li>
+        </ul>
+    </nav>
+
+    <div class="predict-layout">
+        <div class="predict-container">
+            <!-- Header -->
+            <div class="predict-header">
+                <h1>🧠 AI Yield Prediction</h1>
+                <p>Enter your farm conditions and let our machine learning model predict your expected crop yield.</p>
+            </div>
+
+            <div class="predict-grid">
+                <!-- Form Panel -->
+                <div class="form-panel">
+                    <form id="predictionForm">
+                        <!-- Crop & Soil -->
+                        <div class="form-section-title">🌱 Crop & Soil Information</div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="cropType">Crop Type</label>
+                                <select id="cropType" name="crop_type" class="form-control" required>
+                                    <option value="" disabled selected>Select crop</option>
+                                    <option value="Rice">🌾 Rice</option>
+                                    <option value="Wheat">🌿 Wheat</option>
+                                    <option value="Corn">🌽 Corn</option>
+                                    <option value="Sugarcane">🎋 Sugarcane</option>
+                                    <option value="Cotton">☁️ Cotton</option>
+                                    <option value="Soybean">🫘 Soybean</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="soilType">Soil Type</label>
+                                <select id="soilType" name="soil_type" class="form-control" required>
+                                    <option value="" disabled selected>Select soil</option>
+                                    <option value="Alluvial">Alluvial</option>
+                                    <option value="Black Cotton">Black Cotton</option>
+                                    <option value="Red Laterite">Red Laterite</option>
+                                    <option value="Sandy Loam">Sandy Loam</option>
+                                    <option value="Clay">Clay</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="areaHectares">Farm Area (hectares)</label>
+                            <input type="number" id="areaHectares" name="area_hectares" class="form-control" 
+                                   placeholder="e.g., 25" step="0.1" min="0.1" required>
+                        </div>
+
+                        <div class="form-divider"></div>
+
+                        <!-- Weather Conditions -->
+                        <div class="form-section-title">🌡️ Climate Conditions</div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="temperature">Temperature (°C)</label>
+                                <input type="number" id="temperature" name="temperature" class="form-control" 
+                                       placeholder="e.g., 28" step="0.1" min="-10" max="55" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="humidity">Humidity (%)</label>
+                                <input type="number" id="humidity" name="humidity" class="form-control" 
+                                       placeholder="e.g., 65" step="0.1" min="0" max="100" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="rainfall">Rainfall (mm)</label>
+                            <input type="number" id="rainfall" name="rainfall" class="form-control" 
+                                   placeholder="e.g., 150" step="0.1" min="0" max="1000" required>
+                        </div>
+
+                        <div class="form-divider"></div>
+
+                        <!-- Soil Nutrients -->
+                        <div class="form-section-title">🧪 Soil Nutrients</div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="phLevel">pH Level</label>
+                                <input type="number" id="phLevel" name="ph_level" class="form-control" 
+                                       placeholder="e.g., 6.5" step="0.1" min="0" max="14" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="nitrogen">Nitrogen (kg/ha)</label>
+                                <input type="number" id="nitrogen" name="nitrogen" class="form-control" 
+                                       placeholder="e.g., 60" step="1" min="0" max="300" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="phosphorus">Phosphorus (kg/ha)</label>
+                                <input type="number" id="phosphorus" name="phosphorus" class="form-control" 
+                                       placeholder="e.g., 30" step="1" min="0" max="300" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="potassium">Potassium (kg/ha)</label>
+                                <input type="number" id="potassium" name="potassium" class="form-control" 
+                                       placeholder="e.g., 120" step="1" min="0" max="500" required>
+                            </div>
+                        </div>
+
+                        <div class="form-divider"></div>
+
+                        <!-- Quick Fill Buttons -->
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.25rem;">
+                            <button type="button" class="btn btn-outline btn-sm" onclick="fillDemo('optimal')">🟢 Optimal Conditions</button>
+                            <button type="button" class="btn btn-outline btn-sm" onclick="fillDemo('stress')">🔴 Stress Conditions</button>
+                            <button type="button" class="btn btn-outline btn-sm" onclick="fillDemo('average')">🟡 Average Conditions</button>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 1rem;" id="submitBtn">
+                            🧠 Run AI Prediction
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Results Panel -->
+                <div class="results-panel" id="resultsPanel">
+                    <div class="panel-header">
+                        <div class="panel-title">🎯 Prediction Results</div>
+                    </div>
+                    
+                    <div id="resultsContent">
+                        <div class="results-placeholder">
+                            <div class="results-placeholder-icon">🌾</div>
+                            <h3>No Prediction Yet</h3>
+                            <p>Fill in your farm data and click "Run AI Prediction" to see your yield forecast, recommendations, and risk analysis.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ─── Mobile menu toggle ───
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        navToggle.addEventListener('click', () => {
+            navToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // ─── Demo data presets ───
+        function fillDemo(preset) {
+            const presets = {
+                optimal: {
+                    crop_type: 'Rice', soil_type: 'Alluvial', area_hectares: 25,
+                    temperature: 28, humidity: 65, rainfall: 180,
+                    ph_level: 6.5, nitrogen: 80, phosphorus: 45, potassium: 150
+                },
+                stress: {
+                    crop_type: 'Wheat', soil_type: 'Sandy Loam', area_hectares: 15,
+                    temperature: 38, humidity: 85, rainfall: 40,
+                    ph_level: 4.8, nitrogen: 20, phosphorus: 10, potassium: 30
+                },
+                average: {
+                    crop_type: 'Corn', soil_type: 'Black Cotton', area_hectares: 30,
+                    temperature: 25, humidity: 55, rainfall: 120,
+                    ph_level: 6.0, nitrogen: 50, phosphorus: 25, potassium: 100
+                }
+            };
+
+            const d = presets[preset];
+            document.getElementById('cropType').value = d.crop_type;
+            document.getElementById('soilType').value = d.soil_type;
+            document.getElementById('areaHectares').value = d.area_hectares;
+            document.getElementById('temperature').value = d.temperature;
+            document.getElementById('humidity').value = d.humidity;
+            document.getElementById('rainfall').value = d.rainfall;
+            document.getElementById('phLevel').value = d.ph_level;
+            document.getElementById('nitrogen').value = d.nitrogen;
+            document.getElementById('phosphorus').value = d.phosphorus;
+            document.getElementById('potassium').value = d.potassium;
+            
+            // Visual feedback on button
+            const btns = document.querySelectorAll('.btn-outline.btn-sm');
+            btns.forEach(btn => btn.style.borderColor = 'var(--border)');
+            event.target.style.borderColor = 'var(--primary-light)';
+        }
+
+        // ─── Form Submission ───
+        document.getElementById('predictionForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const btn = document.getElementById('submitBtn');
+            const content = document.getElementById('resultsContent');
+            
+            btn.disabled = true;
+            btn.innerHTML = '<div class="loading-spinner" style="width:20px;height:20px;margin:0;border-width:2px;"></div> Analyzing...';
+            
+            content.innerHTML = `
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 3rem;">
+                    <div class="loading-spinner"></div>
+                    <p style="color: var(--text-secondary); margin-top: 1rem;">Running ML model analysis...</p>
+                    <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.5rem;">Evaluating 10+ environmental factors</p>
+                </div>
+            `;
+
+            const payload = {
+                crop_type: document.getElementById('cropType').value,
+                soil_type: document.getElementById('soilType').value,
+                area_hectares: parseFloat(document.getElementById('areaHectares').value),
+                temperature: parseFloat(document.getElementById('temperature').value),
+                humidity: parseFloat(document.getElementById('humidity').value),
+                rainfall: parseFloat(document.getElementById('rainfall').value),
+                ph_level: parseFloat(document.getElementById('phLevel').value),
+                nitrogen: parseFloat(document.getElementById('nitrogen').value),
+                phosphorus: parseFloat(document.getElementById('phosphorus').value),
+                potassium: parseFloat(document.getElementById('potassium').value),
+            };
+
+            try {
+                const res = await fetch('/api/predict', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!res.ok) throw new Error('Prediction failed');
+                const result = await res.json();
+                
+                // Small delay for visual effect
+                await new Promise(r => setTimeout(r, 600));
+
+                renderResults(result);
+            } catch (err) {
+                content.innerHTML = `
+                    <div class="results-placeholder">
+                        <div class="results-placeholder-icon">❌</div>
+                        <h3>Prediction Failed</h3>
+                        <p>${err.message}</p>
+                    </div>
+                `;
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '🧠 Run AI Prediction';
+            }
+        });
+
+        // ─── Render Results ───
+        function renderResults(result) {
+            const content = document.getElementById('resultsContent');
+            const confidencePct = Math.round(result.confidence * 100);
+            const circumference = 2 * Math.PI * 24;
+            const offset = circumference - (confidencePct / 100) * circumference;
+            
+            let html = `<div class="fade-in">`;
+            
+            // Hero result
+            html += `
+                <div class="result-hero">
+                    <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+                        ${result.crop_type} · AI Prediction
+                    </div>
+                    <div class="result-yield">${result.predicted_yield}</div>
+                    <div class="result-unit">tons per hectare</div>
+                    
+                    <div class="result-confidence" style="margin-top: 1rem;">
+                        <div class="confidence-ring">
+                            <svg width="60" height="60" viewBox="0 0 60 60">
+                                <circle class="ring-bg" cx="30" cy="30" r="24"/>
+                                <circle class="ring-fill" cx="30" cy="30" r="24"
+                                    stroke-dasharray="${circumference}"
+                                    stroke-dashoffset="${offset}"/>
+                            </svg>
+                        </div>
+                        <div class="confidence-text">
+                            <strong>${confidencePct}%</strong> confidence
+                        </div>
+                    </div>
+                    
+                    <div class="result-total">
+                        <div class="result-total-label">Total Estimated Production (${result.area_hectares} ha)</div>
+                        <div class="result-total-value">${result.total_estimated_production} tons</div>
+                    </div>
+                </div>
+            `;
+
+            // Recommendations
+            if (result.recommendations && result.recommendations.length > 0) {
+                html += `
+                    <div class="panel-header" style="margin-top: 0.5rem;">
+                        <div class="panel-title">📋 Recommendations</div>
+                    </div>
+                    <div class="recommendations-list">
+                `;
+                
+                result.recommendations.forEach((rec, idx) => {
+                    const priorityClass = 'priority-' + (rec.priority || 'low');
+                    html += `
+                        <div class="recommendation-item" style="animation: fadeInUp 0.5s ease-out ${idx * 0.1}s both;">
+                            <div class="recommendation-header">
+                                <span>${rec.icon || '📌'}</span>
+                                <span class="recommendation-category">${rec.category}</span>
+                                <span class="recommendation-priority ${priorityClass}">${rec.priority}</span>
+                            </div>
+                            <div class="recommendation-message">${rec.message}</div>
+                            ${rec.impact ? `<div class="recommendation-impact">Impact: ${rec.impact}</div>` : ''}
+                        </div>
+                    `;
+                });
+                
+                html += `</div>`;
+            }
+
+            // Risk Factors
+            if (result.risk_factors && result.risk_factors.length > 0) {
+                html += `
+                    <div class="panel-header" style="margin-top: 1.5rem;">
+                        <div class="panel-title">⚠️ Risk Assessment</div>
+                    </div>
+                    <div class="risks-list">
+                `;
+                
+                result.risk_factors.forEach((risk, idx) => {
+                    html += `
+                        <div class="risk-item" style="animation: fadeInUp 0.5s ease-out ${idx * 0.1}s both;">
+                            <div class="risk-level ${risk.level}"></div>
+                            <div class="risk-info">
+                                <h4>${risk.factor}</h4>
+                                <p>${risk.description}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += `</div>`;
+            }
+
+            html += `</div>`;
+            content.innerHTML = html;
+            
+            // Scroll to results on mobile
+            if (window.innerWidth < 768) {
+                document.getElementById('resultsPanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+    </script>
+</body>
+</html>

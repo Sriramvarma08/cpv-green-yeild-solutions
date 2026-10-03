@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard — CPV Green Yeild Solutions</title>
+    <meta name="description" content="Real-time farm analytics, weather data, soil health metrics, and yield predictions.">
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌾</text></svg>">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav scrolled" id="mainNav">
+        <a href="/" class="nav-logo">
+            <div class="nav-logo-icon">🌾</div>
+            <span>CPV Green <span style="color: var(--primary-light);">Yeild Solutions</span></span>
+        </a>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="/">Home</a></li>
+            <li><a href="/dashboard" style="color: var(--text-accent);">Dashboard</a></li>
+            <li><a href="/predict" class="btn btn-primary btn-sm">Run Prediction →</a></li>
+        </ul>
+    </nav>
+
+    <div class="dashboard-layout">
+        <div class="dashboard-container">
+            <!-- Header -->
+            <div class="dashboard-header">
+                <div>
+                    <h1>Farm Dashboard</h1>
+                    <p style="color: var(--text-secondary); margin-top: 0.25rem;">Real-time analytics and monitoring</p>
+                </div>
+                <div class="date-display" id="currentDate"></div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid" id="statsGrid">
+                <div class="stat-card">
+                    <div class="stat-card-icon green">🏡</div>
+                    <h3 id="statFarms">{{ total_farms }}</h3>
+                    <p>Total Farms</p>
+                    <div class="stat-change positive">↑ Active</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon blue">📐</div>
+                    <h3 id="statArea">{{ total_area }} ha</h3>
+                    <p>Total Area</p>
+                    <div class="stat-change positive">↑ 5.2%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon amber">🌱</div>
+                    <h3 id="statCrops">{{ active_crops }}</h3>
+                    <p>Active Crops</p>
+                    <div class="stat-change neutral">of {{ total_crops }} total</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon purple">🎯</div>
+                    <h3 id="statYield">{{ avg_yield }} t/ha</h3>
+                    <p>Avg. Predicted Yield</p>
+                    <div class="stat-change positive">↑ 8.3%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon teal">✅</div>
+                    <h3 id="statConfidence">{{ avg_confidence }}%</h3>
+                    <p>Avg. Confidence</p>
+                    <div class="stat-change positive">↑ Reliable</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon rose">📈</div>
+                    <h3 id="statPredictions">{{ predictions|length }}</h3>
+                    <p>Predictions Made</p>
+                    <div class="stat-change positive">↑ Growing</div>
+                </div>
+            </div>
+
+            <!-- Main Content Grid -->
+            <div class="dashboard-grid">
+                <!-- Left Column -->
+                <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                    <!-- Yield Trend Chart -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div class="panel-title">📈 Yield Trend (12 Months)</div>
+                            <div class="panel-action" onclick="refreshStats()">↻ Refresh</div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="yieldChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Crop Distribution -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div class="panel-title">🥧 Crop Distribution</div>
+                        </div>
+                        <div class="chart-container" style="height: 240px;">
+                            <canvas id="cropChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Recent Predictions -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div class="panel-title">📋 Recent Predictions</div>
+                            <a href="/predict" class="panel-action">+ New Prediction</a>
+                        </div>
+                        <table class="predictions-table" id="predictionsTable">
+                            <thead>
+                                <tr>
+                                    <th>Crop</th>
+                                    <th>Yield (t/ha)</th>
+                                    <th>Confidence</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="predictionsBody">
+                                {% for p in predictions[:5] %}
+                                <tr>
+                                    <td style="font-weight: 600;">{{ p.crop_type }}</td>
+                                    <td>{{ "%.2f"|format(p.predicted_yield) }}</td>
+                                    <td>
+                                        <span class="confidence-badge {% if p.confidence > 0.8 %}confidence-high{% elif p.confidence > 0.6 %}confidence-medium{% else %}confidence-low{% endif %}">
+                                            {{ "%.0f"|format(p.confidence * 100) }}%
+                                        </span>
+                                    </td>
+                                    <td style="color: var(--text-muted);">{{ p.generated_at.strftime('%b %d, %Y') if p.generated_at else 'N/A' }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                    <!-- Weather -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div class="panel-title">🌤️ Weather</div>
+                            <div class="panel-action" id="weatherLocation">Punjab, India</div>
+                        </div>
+                        <div class="weather-current">
+                            <div class="weather-temp" id="weatherTemp">--°C</div>
+                            <div class="weather-details">
+                                <p id="weatherCondition">Loading...</p>
+                                <p id="weatherHumidity">Humidity: --%</p>
+                                <p id="weatherWind">Wind: -- km/h</p>
+                            </div>
+                        </div>
+                        <div class="weather-forecast" id="weatherForecast"></div>
+                    </div>
+
+                    <!-- Soil Health -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div class="panel-title">🧪 Soil Health</div>
+                            <div class="panel-action">Latest Reading</div>
+                        </div>
+                        <div class="soil-grid" id="soilGrid"></div>
+                    </div>
+
+                    <!-- Farms -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div class="panel-title">🏡 Your Farms</div>
+                        </div>
+                        <div class="farm-list">
+                            {% for farm in farms %}
+                            <div class="farm-item">
+                                <div class="farm-icon">🌾</div>
+                                <div class="farm-info">
+                                    <h4>{{ farm.name }}</h4>
+                                    <p>{{ farm.location }} · {{ farm.soil_type }}</p>
+                                </div>
+                                <div class="farm-size">{{ farm.size_hectares }} ha</div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ─── Mobile menu toggle ───
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        navToggle.addEventListener('click', () => {
+            navToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // ─── Date Display ───
+        const dateEl = document.getElementById('currentDate');
+        const now = new Date();
+        dateEl.textContent = now.toLocaleDateString('en-US', {
+            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+        });
+
+        // ─── Chart.js defaults ───
+        Chart.defaults.color = '#94a3b8';
+        Chart.defaults.borderColor = 'rgba(74, 222, 128, 0.08)';
+        Chart.defaults.font.family = "'Inter', sans-serif";
+
+        let yieldChart, cropChart;
+
+        // ─── Fetch dashboard stats and render charts ───
+        async function loadDashboard() {
+            try {
+                const res = await fetch('/api/stats');
+                const data = await res.json();
+
+                // Yield Trend Chart
+                const yieldCtx = document.getElementById('yieldChart').getContext('2d');
+                
+                const gradient = yieldCtx.createLinearGradient(0, 0, 0, 280);
+                gradient.addColorStop(0, 'rgba(34, 197, 94, 0.25)');
+                gradient.addColorStop(1, 'rgba(34, 197, 94, 0.0)');
+
+                yieldChart = new Chart(yieldCtx, {
+                    type: 'line',
+                    data: {
+                        labels: data.yield_trend.months,
+                        datasets: [{
+                            label: 'Predicted Yield (t/ha)',
+                            data: data.yield_trend.yields,
+                            borderColor: '#22c55e',
+                            backgroundColor: gradient,
+                            borderWidth: 2.5,
+                            fill: true,
+                            tension: 0.4,
+                            pointBackgroundColor: '#22c55e',
+                            pointBorderColor: '#060b08',
+                            pointBorderWidth: 2,
+                            pointRadius: 4,
+                            pointHoverRadius: 7,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        interaction: {
+                            mode: 'index',
+                            intersect: false,
+                        },
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                backgroundColor: 'rgba(6, 11, 8, 0.95)',
+                                borderColor: 'rgba(74, 222, 128, 0.3)',
+                                borderWidth: 1,
+                                padding: 12,
+                                cornerRadius: 8,
+                                titleFont: { weight: '600' },
+                                callbacks: {
+                                    label: ctx => `Yield: ${ctx.parsed.y} t/ha`
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: false,
+                                grid: { color: 'rgba(74, 222, 128, 0.06)' },
+                                ticks: { callback: v => v + ' t/ha' }
+                            },
+                            x: {
+                                grid: { display: false }
+                            }
+                        }
+                    }
+                });
+
+                // Crop Distribution Chart
+                const cropLabels = Object.keys(data.crop_distribution);
+                const cropValues = Object.values(data.crop_distribution);
+                const cropColors = ['#22c55e', '#3b82f6', '#f59e0b', '#ef4444', '#a855f7', '#14b8a6'];
+
+                cropChart = new Chart(document.getElementById('cropChart'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: cropLabels,
+                        datasets: [{
+                            data: cropValues,
+                            backgroundColor: cropColors.slice(0, cropLabels.length),
+                            borderColor: '#060b08',
+                            borderWidth: 3,
+                            hoverOffset: 8,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '65%',
+                        plugins: {
+                            legend: {
+                                position: 'right',
+                                labels: {
+                                    padding: 16,
+                                    usePointStyle: true,
+                                    pointStyleWidth: 10,
+                                    font: { size: 12 }
+                                }
+                            }
+                        }
+                    }
+                });
+
+                // Weather Widget
+                const w = data.weather;
+                document.getElementById('weatherTemp').textContent = w.temperature + '°C';
+                document.getElementById('weatherCondition').textContent = w.condition;
+                document.getElementById('weatherHumidity').textContent = `Humidity: ${w.humidity}%`;
+                document.getElementById('weatherWind').textContent = `Wind: ${w.wind_speed} km/h`;
+
+                const weatherIcons = {
+                    'Sunny': '☀️', 'Partly Cloudy': '⛅', 'Cloudy': '☁️',
+                    'Light Rain': '🌧️', 'Rain': '🌧️', 'Storm': '⛈️'
+                };
+
+                const forecastEl = document.getElementById('weatherForecast');
+                forecastEl.innerHTML = w.forecast.map(f => `
+                    <div class="forecast-day">
+                        <div class="day-name">${f.day}</div>
+                        <div class="day-icon">${weatherIcons[f.condition] || '🌤️'}</div>
+                        <div class="day-temp">${f.high}°/${f.low}°</div>
+                    </div>
+                `).join('');
+
+                // Soil Health Metrics
+                const soilEl = document.getElementById('soilGrid');
+                const soilColors = {
+                    'pH Level': { color: '#22c55e', max: 14, unit: '' },
+                    'Nitrogen': { color: '#3b82f6', max: 140, unit: ' kg/ha' },
+                    'Phosphorus': { color: '#f59e0b', max: 100, unit: ' kg/ha' },
+                    'Potassium': { color: '#a855f7', max: 300, unit: ' kg/ha' },
+                    'Organic Matter': { color: '#14b8a6', max: 10, unit: '%' },
+                    'Moisture': { color: '#ef4444', max: 100, unit: '%' },
+                };
+
+                soilEl.innerHTML = Object.entries(data.soil_health).map(([key, value]) => {
+                    const meta = soilColors[key] || { color: '#64748b', max: 100, unit: '' };
+                    const pct = Math.min((value / meta.max) * 100, 100);
+                    return `
+                        <div class="soil-metric">
+                            <div class="soil-metric-label">${key}</div>
+                            <div class="soil-metric-value">${value}${meta.unit}</div>
+                            <div class="soil-metric-bar">
+                                <div class="soil-metric-fill" style="width: ${pct}%; background: ${meta.color};"></div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+            } catch (err) {
+                console.error('Dashboard load error:', err);
+            }
+        }
+
+        async function refreshStats() {
+            if (yieldChart) yieldChart.destroy();
+            if (cropChart) cropChart.destroy();
+            await loadDashboard();
+        }
+
+        // Load on page ready
+        loadDashboard();
+    </script>
+</body>
+</html>
